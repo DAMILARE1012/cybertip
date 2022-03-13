@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAdminApprovalToUsersTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddAdminApprovalToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('admin_approval')->default(0);
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->integer('role_key')->unique();
+            $table->string('role_name');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddAdminApprovalToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('roles');
     }
 }

@@ -17,7 +17,7 @@ class UserTableSeeder extends Seeder
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
             'password' => bcrypt('verysafepassword'),
-            'role_id' => Role::where('role_name', 'Admin')->first()->id,
+            'role_key' => Role::where('role_name', 'Admin')->first()->id,
             'admin_approval' => 1,
         ]);
 
