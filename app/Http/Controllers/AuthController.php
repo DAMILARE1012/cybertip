@@ -60,13 +60,29 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'User not found!'], 400);
+            return response()->json(['message' => 'User credentials not found!'], 400);
         }
         if($user->admin_approval == 0 && $user->role_id == Role::USER){
             return response()->json(['message' => 'Kindly await admin approval'], 400);
         }
-        return response()->json(['message' => 'Login Successful', 'token' => JWTAuth::fromUser($user), 'User' => $user], 200);
+        if($user->admin_approval == 1 && $user->role_id == Role::USER){
+            return response()->json(['message' => 'User login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user], 200);
+        }
+        if($user->admin_approval == 1 && $user->role_id == Role::MANAGER){
+            return response()->json(['message' => 'Manager login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user], 200);
+        }
+        if($user->admin_approval == 1 && $user->role_id == Role::ADMIN){
+            return response()->json(['message' => 'Admin login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user], 200);
+        }
 
+        // if () {
+            
+        //   } elseif() {
+            
+        //   } else {
+            
+        //   }
+       
 
         // if ($token = $this->guard()->attempt($credentials)) {
         //     return $this->respondWithToken($token);
