@@ -15,7 +15,7 @@ class UserTableSeeder extends Seeder
         \App\User::create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'role_key' => 1,
+            'role_id' => 1,
             'admin_approval' => 1,
             'email_verified_at' => now(),
             'password' => bcrypt('verysafepassword'),
