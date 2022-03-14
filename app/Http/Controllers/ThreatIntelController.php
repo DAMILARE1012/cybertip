@@ -22,14 +22,24 @@ class ThreatIntelController extends Controller
         } else {
             return response()->json(['Message' => 'Record not found!'], 404);
         }
+
+        // $name = $request->get('search');
+
+        // if($request->has('search')){
+        //     $result = ThreatIntel::where('real_name', 'LIKE', '%' . $name . '%')->orWhere('alias', 'like', '%' . $name . '%')->get();
+        //     return response()->json($result, 200);
+        // }else {
+        //     return response()->json(['Message' => 'Record not found!'], 404);
+        // }
     }
 
-    public function filterDate()
+    public function filterDate(Request $request)
     {
-        if (request()->start_date || request()->end_date) {
-            $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
-            $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
-            $data = ThreatIntel::whereBetween('time', [$start_date, $end_date])->get();
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $data = ThreatIntel::whereBetween("time", [$startDate, $endDate])->get();
         } else {
             $data = ThreatIntel::latest()->get();
         }
