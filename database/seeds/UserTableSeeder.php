@@ -12,18 +12,17 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\User::create([
-            'id' => 1,
+        \App\User::updateorCreate(['email' => 'admin@admin.com'],[
             'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'role_id' => 1,
+            'role_id' => Role::where('role_name','Admin')->first()->id,
             'admin_approval' => 1,
             'email_verified_at' => now(),
             'password' => bcrypt('verysafepassword'),
-            
-            
+
+
         ]);
 
-        
+
     }
 }
