@@ -13,6 +13,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         \App\User::create([
+            'id' => 1,
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'role_id' => 1,
