@@ -13,4 +13,8 @@ class Role extends Model
     const ADMIN = 1;
     const MANAGER = 2;
     const USER = 3;
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
