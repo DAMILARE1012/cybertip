@@ -28,19 +28,20 @@ class AuthController extends Controller
     /**
      * Get a JWT token via given credentials.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
         $user = User::create([
             'name' => $request->get('name'),
@@ -48,11 +49,10 @@ class AuthController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
 
-        // $token = JWTAuth::fromUser($user);
 
-        return response()->json(['user'=> $user,  'message' => 'Kindly await admin approval'],201);
+        return response()->json(['user' => $user, 'message' => 'Kindly await admin approval'], 201);
     }
-    
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -62,33 +62,13 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'User credentials not found!'], 400);
         }
-        if($user->admin_approval == 0 && $user->role_id == Role::USER){
+        if ($user->admin_approval == 0 && $user->role_id == Role::USER) {
             return response()->json(['message' => 'Kindly await admin approval'], 400);
         }
-        if($user->admin_approval == 1 && $user->role_id == Role::USER){
-            return response()->json(['message' => 'User login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user], 200);
-        }
-        if($user->admin_approval == 1 && $user->role_id == Role::MANAGER){
-            return response()->json(['message' => 'Manager login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user], 200);
-        }
-        if($user->admin_approval == 1 && $user->role_id == Role::ADMIN){
-            return response()->json(['message' => 'Admin login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user], 200);
-        }
 
-        // if () {
-            
-        //   } elseif() {
-            
-        //   } else {
-            
-        //   }
-       
 
-        // if ($token = $this->guard()->attempt($credentials)) {
-        //     return $this->respondWithToken($token);
-        // }
+        return response()->json(['message' => $user->role->role_name . ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user]);
 
-        // return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     /**
@@ -126,7 +106,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */

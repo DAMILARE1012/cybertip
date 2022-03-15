@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Role;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -60,7 +62,8 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public function role(){
-        return $this->hasOne(Role::class);
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }
