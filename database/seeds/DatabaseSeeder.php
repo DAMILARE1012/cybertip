@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\Category', 20)->create();
+        factory('App\ThreatIntel', 20)->create();
         // $this->call(RolesTableSeeder::class);
         // $this->call(UserTableSeeder::class);
         
