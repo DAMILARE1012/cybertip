@@ -2,8 +2,7 @@
 
 use App\ThreatIntel;
 use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
-use Illuminate\Support\Facades\DB;
+
 
 class ThreatIntelSeeder extends Seeder
 {
@@ -12,19 +11,9 @@ class ThreatIntelSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
-{
-		ThreatIntel::create([
-			'alias' => $faker->name,
-            'real_name' => $faker->name,
-            'post' => $faker->text,
-            'url' => $faker->imageUrl,
-            'time' => $faker->dateTimeThisYear,
-            'geolocation' => $faker->region,
-            'source' => "Twitter",
-        ]);
-
-        factory(App\ThreatIntel::class, 150)->create();
+    public function run(){
+        
+        ThreatIntel::factory()->count(5)->create();
 
 	}
 }
