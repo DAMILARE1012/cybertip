@@ -13,13 +13,13 @@ class ThreatIntelSeeder extends Seeder
 {
 	for ($i = 0; $i < 100; $i++) {
 		DB::table('users')->insert([
-			'alias' => $faker->name,
-            'real_name' => $faker->real_name,
-            'post' => $faker->post,
-            'url' => $faker->url,
-            'time' => $faker->time,
-            'geolocation' => $faker->location,
-            'source' => $faker->source,
+			'alias' => $faker->userName,
+            'real_name' => $faker->name,
+            'post' => $faker->text,
+            'url' => $faker->imageUrl,
+            'time' => $faker->date(),
+            'geolocation' => $faker->state,
+            'source' => "Twitter",
         ]);
 	}
 }
