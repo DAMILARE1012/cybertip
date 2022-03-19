@@ -12,7 +12,7 @@ $factory->define(ThreatIntel::class, function (Faker $faker) {
         'post' => $faker->text,
         'url' => $faker->imageUrl,
         'time' => $faker->dateTimeThisYear,
-        'geolocation' => $faker->region,
+        'geolocation' => $faker->state,
         'source' => "Twitter",
     ];
 });
