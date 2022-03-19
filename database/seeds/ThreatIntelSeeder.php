@@ -1,5 +1,6 @@
 <?php
 
+use App\ThreatIntel;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
@@ -11,10 +12,9 @@ class ThreatIntelSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run()
 {
-	for ($i = 0; $i < 100; $i++) {
-		DB::table('threat_intels')->insert([
+		ThreatIntel::create([
 			'alias' => $faker->userName,
             'real_name' => $faker->name,
             'post' => $faker->text,
@@ -23,6 +23,9 @@ class ThreatIntelSeeder extends Seeder
             'geolocation' => $faker->region,
             'source' => "Twitter",
         ]);
+
+        factory(App\ThreatIntel::class, 150)->create();
+
 	}
 }
 }
