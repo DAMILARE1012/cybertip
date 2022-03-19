@@ -15,7 +15,7 @@ class ThreatIntelSeeder extends Seeder
     public function run(Faker $faker)
 {
 		ThreatIntel::create([
-			'alias' => $faker->userName,
+			'alias' => $faker->firstName,
             'real_name' => $faker->name,
             'post' => $faker->text,
             'url' => $faker->imageUrl,
