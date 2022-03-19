@@ -12,7 +12,7 @@ class ThreatIntelSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
 {
 		ThreatIntel::create([
 			'alias' => $faker->userName,
@@ -27,5 +27,4 @@ class ThreatIntelSeeder extends Seeder
         factory(App\ThreatIntel::class, 150)->create();
 
 	}
-}
 }
