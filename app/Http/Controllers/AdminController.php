@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\AcceptUserNotification;
 use App\User;
 
 use Illuminate\Http\Request;
+use Notification;
+
 
 class AdminController extends Controller
 {
+    public function usersList()
+    {
+        $users = User::orderBy('created_at', 'desc')->paginate(7);
+        return response()->json($users, 200);
+    }
+
+    public function approvedUsers(){
+        $users = User::where('admin_approval', 1)->get();
+        return response()->json($users, 200);
+    }
+    
     public function unapproved_users(){
         $users = User::where('admin_approval', '=', 0)->get();
         return response()->json($users, 200);
@@ -17,6 +31,19 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update(['admin_approval' => 1]);
+        
+        $details = [
+            'greeting' => 'Approval Information',
+            'body' => 'Your account registration has been approved, kindly make use of the registered details to access the login form.',
+            'thanks' => 'Thank you for choosing CyberTip',
+            'actionText' => 'View our Site',
+            'actionURL' => url('localhost:8000/api/login'),
+        ];
+  
+        $user->notify(new AcceptUserNotification($details));
+   
+        dd('done');
+
         return response()->json(['message' => 'User successfully approved...']);
     }
 
@@ -26,7 +53,6 @@ class AdminController extends Controller
         $user->delete();
         return response()->json(['message' => 'User account declined successfully...']);
     }
-
 
     public function edit($id){
         $user = User::findOrFail($id);
@@ -46,4 +72,6 @@ class AdminController extends Controller
         $user->save();
         return response()->json(['message' => 'User role updated successfully...']);
     }
+
+    
 }

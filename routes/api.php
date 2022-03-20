@@ -33,12 +33,21 @@ Route::group([ 'middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/threat_intels', 'ThreatIntelController@index');
-    Route::get('/threat_intels/{name}', 'ThreatIntelController@search');
+    Route::get('/threat_intels/{search}', 'ThreatIntelController@search');
     Route::get('/threat_intels/{start_date}&{end_date}', 'ThreatIntelController@filterDate');
+
+    
+    Route::get('threats_intel/sortLast5days', 'ThreatIntelController@sortLast5days');
+
+    Route::get('threats_intel/sortLast7days', 'ThreatIntelController@sortLast7days');
 
     Route::get('unapproved_users', 'AdminController@unapproved_users');
     Route::put('/users/{id}/approve', 'AdminController@approve');
     Route::delete('/users/{id}/decline', 'AdminController@decline');
     Route::get('/users/{id}/edit', 'AdminController@edit');
     Route::patch('/users/{user}', 'AdminController@update_role');
+
+
+    Route::get('/users', 'AdminController@usersList');
+    Route::get('/users/approved', 'AdminController@approvedUsers');
 });
