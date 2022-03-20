@@ -11,7 +11,7 @@ class ThreatIntelController extends Controller
 {
     public function index()
     {
-        $threat_intels = ThreatIntel::orderBy('time', 'desc')->paginate(7);
+        $threat_intels = ThreatIntel::orderBy('time', 'desc')->paginate(6);
         return response()->json($threat_intels, 200);
     }
 
@@ -50,26 +50,26 @@ class ThreatIntelController extends Controller
 
     public function orderByID()
     {
-        $results = ThreatIntel::orderBy('id', 'DESC')->get();
+        $results = ThreatIntel::orderBy('id', 'DESC')->paginate(6);
         return Response()->json($results, 200);
     }
 
     public function orderbyAlias()
     {
-        $results = ThreatIntel::orderBy('id', 'ASC')->get();
+        $results = ThreatIntel::orderBy('id', 'ASC')->paginate(6);
         return Response()->json($results, 200);
     }
 
     public function orderbyReal_Name()
     {
-        $results = ThreatIntel::orderBy('real_name', 'ASC')->get();
+        $results = ThreatIntel::orderBy('real_name', 'ASC')->paginate(6);
         return Response()->json($results, 200);
     }
 
     public function sortLast5days()
     {
 
-        $last_5_days = ThreatIntel::where('time', '>=', Carbon::now()->subdays(5))->get(['real_name', 'time']);
+        $last_5_days = ThreatIntel::where('time', '>=', Carbon::now()->subdays(5))->paginate(6);
 
         $last_5_days = $last_5_days->reverse();
         return Response()->json($last_5_days, 200);
@@ -90,7 +90,7 @@ class ThreatIntelController extends Controller
 
     public function sortlast7days()
     {
-        $last_7_days = ThreatIntel::where('time', '>=', Carbon::now()->subdays(7))->get(['real_name', 'time']);
+        $last_7_days = ThreatIntel::where('time', '>=', Carbon::now()->subdays(7))->paginate(6);
 
         $last_7_days = $last_7_days->reverse();
         return Response()->json($last_7_days, 200);

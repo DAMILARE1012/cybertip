@@ -13,25 +13,27 @@ class AdminController extends Controller
 {
     public function usersList()
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(7);
+        $users = User::orderBy('created_at', 'desc')->paginate(6);
         return response()->json($users, 200);
     }
 
-    public function approvedUsers(){
-        $users = User::where('admin_approval', 1)->get();
+    public function approvedUsers()
+    {
+        $users = User::where('admin_approval', 1)->paginate(6);
         return response()->json($users, 200);
     }
-    
-    public function unapproved_users(){
-        $users = User::where('admin_approval', '=', 0)->get();
+
+    public function unapproved_users()
+    {
+        $users = User::where('admin_approval', '=', 0)->paginate(6);
         return response()->json($users, 200);
-    }   
+    }
 
     public function approve($id)
     {
         $user = User::findOrFail($id);
         $user->update(['admin_approval' => 1]);
-        
+
         $details = [
             'greeting' => 'Approval Information',
             'body' => 'Your account registration has been approved, kindly make use of the registered details to access the login form.',
@@ -39,9 +41,9 @@ class AdminController extends Controller
             'actionText' => 'View our Site',
             'actionURL' => url('localhost:8000/api/login'),
         ];
-  
+
         $user->notify(new AcceptUserNotification($details));
-   
+
         dd('done');
 
         return response()->json(['message' => 'User successfully approved...']);
@@ -54,24 +56,24 @@ class AdminController extends Controller
         return response()->json(['message' => 'User account declined successfully...']);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $user = User::findOrFail($id);
         return response()->json($user, 200);
     }
 
-    public function update_role(Request $request, User $user){
-        
+    public function update_role(Request $request, User $user)
+    {
+
         $request->validate([
             'role_id' => 'required',
         ]);
 
         $user->role_id = $request->role_id;
-        if($user->role_id == 3){
+        if ($user->role_id == 3) {
             $user->role_id = 2;
         }
         $user->save();
         return response()->json(['message' => 'User role updated successfully...']);
     }
-
-    
 }
