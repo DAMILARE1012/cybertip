@@ -71,7 +71,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'User credentials not found!'], 400);
         }
         if ($user->admin_approval == 0 && $user->role_id == Role::USER) {
-            return response()->json(['message' => 'Kindly await admin approval'], 400);
+            return response()->json(['user' => $user, 'message' => 'Kindly await admin approval'], 200);
         }
 
 
