@@ -58,7 +58,7 @@ class AuthController extends Controller
         ]);
 
 
-        return response()->json(['user' => $user, 'message' => 'Kindly await admin approval'], 201);
+        return response()->json(['user' => $user, 'token' => JWTAuth::fromUser($user), 'message' => 'Welcome new user, your account has been successfully created'], 201);
     }
 
     public function login(Request $request)
