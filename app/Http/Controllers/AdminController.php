@@ -75,6 +75,7 @@ class AdminController extends Controller
         $user = User::find($user);
 
         $validate = $request->validate([
+            
             'name' => 'required|string|max:255',
             'phoneNumber' => 'required|digits:11',
             'companyName' => 'required',
