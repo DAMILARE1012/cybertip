@@ -76,4 +76,45 @@ class AdminController extends Controller
         $user->save();
         return response()->json(['message' => 'User role updated successfully...']);
     }
+
+    public function updateProfile(Request $request, $user)
+    {
+        $user = User::find($user);
+
+        $validate = $request->validate([
+            'name' => 'required|string|max:255',
+            'phoneNumber' => 'required|digits:11',
+            'companyName' => 'required',
+            'companyRole' => 'required',
+            'googleProfile' => 'nullable',
+            'facebookProfile' => 'nullable',
+            'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
+            'companyWebsite' => 'string|max:255|nullable',
+            
+        ]);
+
+        if ($request->hasFile('image')) {
+
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt,PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $path = $request->file('image')->storeAs('public/news_images',$fileNameToStore);
+        }
+
+        $user->name = $request->name;
+        $user->phoneNumber = $request->phoneNumber;
+        $user->companyName = $request->companyName;
+        $user->companyRole = $request->companyRole;
+        $user->googleProfile = $request->googleProfile;
+        $user->facebookProfile = $request->facebookProfile;
+        $user->image = $request->file('image') ? $fileNameToStore:null;
+        $user->companyWebsite = $request->companyWebsite;
+        // dd($user);
+
+        $user->save();
+        return response()->json(['message' => 'User Profile updated successfully...'], 200);
+    }
 }
+
+

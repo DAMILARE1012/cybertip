@@ -19,6 +19,8 @@ class UserTableSeeder extends Seeder
             'companyName' => 'CyberTip Nigeria Limited',
             'companyRole' => 'Administrator',
             'companyWebsite' => 'www.cybertip.com',
+            'googleProfile' => 'www.google.com/damilare',
+            'facebookProfile' => 'www.facebook.com/damilare_emmanuel',
             'role_id' => Role::where('role_name','Admin')->first()->id,
             'admin_approval' => 1,
             'email_verified_at' => now(),

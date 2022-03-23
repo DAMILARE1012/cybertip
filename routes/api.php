@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::delete('/users/{id}/decline', 'AdminController@decline');
     Route::get('/users/{id}/edit', 'AdminController@edit');
     Route::patch('/users/{user}', 'AdminController@update_role');
+    Route::put('/users/{user}/updateprofile', 'AdminController@updateProfile');
 
 
     Route::get('/users', 'AdminController@usersList');

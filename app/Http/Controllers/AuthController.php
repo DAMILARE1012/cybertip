@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Util\Json;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -37,9 +38,12 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'phoneNumber' =>'required|digits:11',
+            'phoneNumber' => 'required|digits:11',
             'companyName' => 'required',
             'companyRole' => 'required',
+            'googleProfile' => 'nullable',
+            'facebookProfile' => 'nullable',
+            'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
             'companyWebsite' => 'string|max:255|nullable',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -47,18 +51,33 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
+
+        if ($request->hasFile('image')) {
+
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt,PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            $path = $request->file('image')->storeAs('public/news_images',$fileNameToStore);
+        }
+
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'phoneNumber'=> $request->get('phoneNumber'),
-            'companyName'=> $request->get('companyName'),
-            'companyRole'=> $request->get('companyRole'),
-            'companyWebsite'=> $request->get('companyWebsite'),
+            'phoneNumber' => $request->get('phoneNumber'),
+            'companyName' => $request->get('companyName'),
+            'companyRole' => $request->get('companyRole'),
+            'googleProfile' => $request->get('googleProfile'),
+            'facebookProfile' => $request->get('facebookProfile'),
+            'image' => $request->file('image') ? $fileNameToStore:null,
+            'companyWebsite' => $request->get('companyWebsite'),
             'password' => Hash::make($request->get('password')),
         ]);
 
+        
 
-        return response()->json(['user' => $user, 'token' => JWTAuth::fromUser($user), 'message' => 'Welcome new user, your account has been successfully created'], 201);
+
+        return response()->json(['user' => $user, 'token' => JWTAuth::fromUser($user),  'message' => 'Welcome new user, your account has been successfully created'], 201);
     }
 
     public function login(Request $request)
@@ -76,7 +95,6 @@ class AuthController extends Controller
 
 
         return response()->json(['message' => $user->role->role_name . ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user]);
-
     }
 
     /**

@@ -21,6 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('companyName');
             $table->string('companyRole');
             $table->string('companyWebsite')->nullable();
+            $table->string('googleProfile')->nullable();
+            $table->string('facebookProfile')->nullable();
+            $table->string('image')->nullable();
 //            $table->foreignId('role_id')->default(3)->constrained();
              $table->unsignedInteger('role_id')->default(3);
             $table->boolean('admin_approval')->default(0);
