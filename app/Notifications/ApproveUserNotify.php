@@ -7,21 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AcceptUserNotification extends Notification
+class ApproveUserNotify extends Notification
 {
     use Queueable;
-
-    private $details;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($details)
+    public $user;
+
+    public function __construct($user)
     {
-        //
-        $this->details = $details;
+        $this->user = $user;
     }
 
     /**
@@ -32,7 +31,7 @@ class AcceptUserNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -44,10 +43,12 @@ class AcceptUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting($this->details['greeting'])
-            ->line($this->details['body'])
-            ->action($this->details['actionText'], $this->details['actionURL'])
-            ->line($this->details['thanks']);
+                    ->subject('Hey user, Post Update')
+                    ->greeting('Hello' , 'User')
+                    ->line('There is a new post , hope you will like it')
+                    ->line('User title : '.$this->user->role->role_name) //Send with User title
+                    ->action('Kindly login with ' , url(route('user' , $this->user->email))) //Send with post url
+                    ->line('Thank you for being with us!');
     }
 
     /**
@@ -56,10 +57,10 @@ class AcceptUserNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
         return [
-            'order_id' => $this->details['order_id']
+            //
         ];
     }
 }

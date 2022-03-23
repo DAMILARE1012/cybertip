@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\AcceptUserNotification;
+use App\Notifications\ApproveUserNotify;
+use App\Notifications\NewPostNotify;
+use Illuminate\Support\Facades\Notification;
 use App\User;
 
 use Illuminate\Http\Request;
-use Notification;
+
 
 
 class AdminController extends Controller
@@ -34,17 +36,8 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $user->update(['admin_approval' => 1]);
 
-        $details = [
-            'greeting' => 'Approval Information',
-            'body' => 'Your account registration has been approved, kindly make use of the registered details to access the login form.',
-            'thanks' => 'Thank you for choosing CyberTip',
-            'actionText' => 'View our Site',
-            'actionURL' => url('localhost:8000/api/login'),
-        ];
-
-        $user->notify(new AcceptUserNotification($details));
-
-        dd('done');
+        Notification ::route('mail' , $user->email) //Sending mail to subscriber
+        ->notify(new ApproveUserNotify($user)); //With new post
 
         return response()->json(['message' => 'User successfully approved...']);
     }
