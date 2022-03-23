@@ -96,7 +96,7 @@ class AuthController extends Controller
         }
 
 
-        return response()->json(['message' => $user->role->role_name . ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user]);
+        return response()->json(['role' => $user->role->role_name, 'message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user]);
     }
 
     /**
