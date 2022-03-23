@@ -113,7 +113,7 @@ class AdminController extends Controller
         // dd($user);
 
         $user->save();
-        return response()->json(['message' => 'User Profile updated successfully...'], 200);
+        return response()->json(['User' => $user, 'message' => 'User Profile updated successfully...'], 200);
     }
 }
 
