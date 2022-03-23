@@ -44,6 +44,7 @@ class AuthController extends Controller
             'googleProfile' => 'nullable',
             'facebookProfile' => 'nullable',
             'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
+            // 'role_id' => 'required',
             'companyWebsite' => 'string|max:255|nullable',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -70,6 +71,7 @@ class AuthController extends Controller
             'googleProfile' => $request->get('googleProfile'),
             'facebookProfile' => $request->get('facebookProfile'),
             'image' => $request->file('image') ? $fileNameToStore:null,
+            'role_id'=> 3,
             'companyWebsite' => $request->get('companyWebsite'),
             'password' => Hash::make($request->get('password')),
         ]);
@@ -77,7 +79,7 @@ class AuthController extends Controller
         
 
 
-        return response()->json(['user' => $user, 'token' => JWTAuth::fromUser($user),  'message' => 'Welcome new user, your account has been successfully created'], 201);
+        return response()->json(['User' => $user, 'role' => $user->role->role_name, 'token' => JWTAuth::fromUser($user),  'message' => 'Welcome new user, your account has been successfully created'], 201);
     }
 
     public function login(Request $request)
@@ -90,7 +92,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'User credentials not found!'], 400);
         }
         if ($user->admin_approval == 0 && $user->role_id == Role::USER) {
-            return response()->json(['user' => $user, 'message' => 'Welcome user, login successful'], 200);
+            return response()->json(['User' => $user, 'message' => 'Welcome user, login successful'], 200);
         }
 
 
