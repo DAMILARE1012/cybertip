@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\DailyReport::class,
+        Commands\WeeklyReport::class,
+        Commands\MonthlyReport::class,
     ];
 
     /**
@@ -24,7 +26,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('report:daily')->everyMinute();
+        $schedule->command('report:daily')->twiceDaily(1,13);
+        $schedule->command('report:weekly')->weeklyOn(1, '8:00');
+        $schedule->command('report:monthly')->monthlyOn(4, '15:00');
                 // $schedule->command('inspire')->hourly();
     }
 
