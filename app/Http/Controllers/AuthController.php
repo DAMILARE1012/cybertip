@@ -76,7 +76,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
 
-        return response()->json(['User' => $user, 'role_name' => $user->role->role_name, 'token' => JWTAuth::fromUser($user),  'message' => 'Welcome new user, your account has been successfully created'], 201);
+        return response()->json(['User' => $user, 'role_name' => 'User', 'token' => JWTAuth::fromUser($user),  'message' => 'Welcome new user, your account has been successfully created'], 201);
     }
 
     public function login(Request $request)
