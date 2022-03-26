@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Report;
 use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -39,11 +40,11 @@ class DailyReport extends Command
      */
     public function handle()
     {
-        
+        $message = "This is an automatically generated Daily Report. Kindly take note of the following information";
          
-        $users = User::where('companyName', 'CyberTip Nigeria Limited')->get();
-        foreach ($users as $user) {
-            Mail::raw("This is an automatically generated Daily Report", function ($mail) use ($user) {
+        $usersReport = Report::where('frequency', 'daily')->get();
+        foreach ($usersReport as $user) {
+            Mail::raw($message, function ($mail) use ($user) {
                 $mail->from('dammy4did@gmail.com');
                 $mail->to($user->email)
                     ->subject('CyberTip Daily Report');

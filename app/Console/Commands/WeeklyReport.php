@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Report;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class WeeklyReport extends Command
 {
@@ -11,14 +13,14 @@ class WeeklyReport extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'report:weekly';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Respectively send an exclusive report to everyone weekly via email.';
 
     /**
      * Create a new command instance.
@@ -37,6 +39,17 @@ class WeeklyReport extends Command
      */
     public function handle()
     {
-        return 0;
+        $message = "This is an automatically generated Weekly report. Kindly take note of the following information";
+         
+        $usersReport = Report::where('frequency', 'weekly')->get();
+        foreach ($usersReport as $user) {
+            Mail::raw($message, function ($mail) use ($user) {
+                $mail->from('dammy4did@gmail.com');
+                $mail->to($user->email)
+                    ->subject('CyberTip Daily Report');
+            });
+        }
+         
+        $this->info('Successfully sent weekly report to everyone.');
     }
 }

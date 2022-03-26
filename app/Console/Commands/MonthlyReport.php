@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Report;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class MonthlyReport extends Command
 {
@@ -11,14 +13,14 @@ class MonthlyReport extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'report:monthly';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Respectively send an exclusive report to everyone monthly via email.';
 
     /**
      * Create a new command instance.
@@ -37,6 +39,16 @@ class MonthlyReport extends Command
      */
     public function handle()
     {
-        return 0;
+        $message = "This is an automatically generated monthly report. Kindly take note of the following information";
+         
+        $usersReport = Report::where('frequency', 'monthly')->get();
+        foreach ($usersReport as $user) {
+            Mail::raw($message, function ($mail) use ($user) {
+                $mail->from('dammy4did@gmail.com');
+                $mail->to($user->email)
+                    ->subject('CyberTip Monthly Report');
+            });
+        }
+        $this->info('Successfully sent monthly report to everyone.');
     }
 }

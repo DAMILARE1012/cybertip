@@ -51,4 +51,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('/users', 'AdminController@usersList');
     Route::get('/users/approved', 'AdminController@approvedUsers');
+
+    Route::post('/users/report_list', 'ReportController@store');
 });
