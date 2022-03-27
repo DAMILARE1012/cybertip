@@ -3,9 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Report;
+use App\ThreatIntel;
 use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use PDF;
 
 class DailyReport extends Command
 {
@@ -40,15 +42,26 @@ class DailyReport extends Command
      */
     public function handle()
     {
-        $message = "This is an automatically generated Daily Report. Kindly take note of the following information";
+
+        $threatIntels = ThreatIntel::where('source', 'Twitter')->get();
          
-        $usersReport = Report::where('frequency', 'daily')->get();
-        foreach ($usersReport as $user) {
-            Mail::raw($message, function ($mail) use ($user) {
-                $mail->from('dammy4did@gmail.com');
-                $mail->to($user->email)
-                    ->subject('CyberTip Daily Report');
+        $users = Report::where('frequency', 'daily')->get();
+        foreach ($users as $user) {
+            $daily_report = PDF::loadView('reports.daily_report', ['threatIntels' => $threatIntels]);
+                $pdf = $daily_report->output();
+                $data = [
+                    'details' => 'This email is to notify you of the threat intel related to your company. Kindly take note of the following information',
+                    'manager_name' => "User"
+                ];
+            Mail::send('reports.email_body', $data, function ($message) use ($user, $pdf) {
+                $message->from('dammy4did@gmail.com', 'CyberTip Admin Office');
+                $message->to($user->email);
+                $message->subject('CyberTip Daily Report');
+                $message->attachData($pdf, 'cybertip_daily_report.pdf', [
+                    'mime' => 'application/pdf',
+                ]);
             });
+            
         }
          
         $this->info('Successfully sent daily report to everyone.');
