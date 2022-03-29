@@ -27,7 +27,43 @@ class BookmarkController extends Controller
     }
 
     public function index(){
-        $bookmarks = Bookmark::where('user_id', auth()->user()->id)->paginate(6);
+        $bookmarks = Bookmark::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(6);
         return response()->json(['Bookmarks' => $bookmarks], 201);
     }
+
+    public function removeBookmark($id)
+    {
+        $bookmark = Bookmark::findOrFail($id);
+        $bookmark->delete();
+        return response()->json(['message' => 'Post successfully removed.....']);
+    }
+
+
+    public function search($name)
+    {
+        $result = Bookmark::where('real_name', 'LIKE', '%' . $name . '%')->orWhere('alias', 'like', '%' . $name . '%')->get();
+        if (count($result)) {
+            return Response()->json($result);
+        } else {
+            return response()->json(['Message' => 'Record not found!'], 404);
+        }        
+    }
+
+    public function filterDate(Request $request)
+    {
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $data = Bookmark::whereBetween("created_at", [$startDate, $endDate])->get();
+        } else {
+            $data = Bookmark::latest()->get();
+        }
+
+        return Response()->json($data, 200);
+    }
+
+    
+
+    
 }

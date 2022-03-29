@@ -42,13 +42,6 @@ class AdminController extends Controller
         return response()->json(['message' => 'User successfully approved...']);
     }
 
-    public function decline($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return response()->json(['message' => 'User account declined successfully...']);
-    }
-
     public function edit($id)
     {
         $user = User::findOrFail($id);
