@@ -18,30 +18,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group([ 'middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::get('me', 'AuthController@me');
-
-
 });
 
 
 
 Route::group(['middleware' => 'auth:api'], function () {
-    
+
     // Threat Intel Controller 
 
     Route::get('/threat_intels', 'ThreatIntelController@index');
     Route::get('/threat_intels/{search}', 'ThreatIntelController@search');
     Route::get('/threat_intels/{start_date}&{end_date}', 'ThreatIntelController@filterDate');
-
-    
     Route::get('threats_intel/sortLast5days', 'ThreatIntelController@sortLast5days');
-
     Route::get('threats_intel/sortLast7days', 'ThreatIntelController@sortLast7days');
 
     // Admin Controller 
@@ -60,11 +55,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users/bookmark_records', 'BookmarkController@index');
     Route::get('/bookmark_posts/{search}', 'BookmarkController@search');
     Route::get('/bookmarks/{start_date}&{end_date}', 'BookmarkController@filterDate');
+    Route::delete('/bookmarks/{id}', 'BookmarkController@removeBookmark');
+    Route::get('bookmarks/sortLast5days', 'BookmarkController@sortLast5days');
+    Route::get('bookmarks/sortLast7days', 'BookmarkController@sortLast7days');
 
     // Report Controller
     Route::post('/users/report_list', 'ReportController@store');
     Route::get('/users/reports', 'ReportController@index');
-    Route::get('/reports/{search}', 'ReportController@searchbyFrequency');
-    Route::get('/reportsbyemail/{search}', 'ReportController@searchbyEmail');
+    Route::get('/reports/{search}', 'ReportController@search');
     Route::delete('/reports/{id}', 'ReportController@removeReport');
 });

@@ -29,7 +29,8 @@ class ReportController extends Controller
         return response()->json(['message' => "User successfully registered for $report->frequency report"], 200);
     }
 
-    public function index(){
+    public function index()
+    {
         $reports = Report::paginate(6);
         return response()->json(['Reports' => $reports], 201);
     }
@@ -41,19 +42,9 @@ class ReportController extends Controller
         return response()->json(['message' => 'Post successfully removed.....']);
     }
 
-    public function searchbyEmail($name)
+    public function search($name)
     {
-        $result = Report::where('email', 'LIKE', '%' . $name . '%')->orderBy('created_at', 'desc')->paginate(6);
-        if (count($result)) {
-            return Response()->json($result);
-        } else {
-            return response()->json(['Message' => 'Record not found!'], 404);
-        }
-    }
-
-    public function searchbyFrequency($name)
-    {
-        $result = Report::where('frequency', 'LIKE', '%' . $name . '%')->orderBy('created_at', 'desc')->paginate(6);
+        $result = Report::where('email', 'LIKE', '%' . $name . '%')->orWhere('frequency', 'like', '%' . $name . '%')->orderBy('created_at', 'desc')->paginate(6);
         if (count($result)) {
             return Response()->json($result);
         } else {

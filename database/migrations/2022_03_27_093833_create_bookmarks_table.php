@@ -15,7 +15,9 @@ class CreateBookmarksTable extends Migration
     {
 
         Schema::create('bookmarks', function (Blueprint $table) {
-            $table->integer('user_id');
+            $table->id();
+            $table->foreignId('user_id');
+            $table->foreign('user_id')->on('users')->references('id')->cascadeOnDelete();
             $table->string('alias');
             $table->string('real_name');
             $table->string('post');
