@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Threat Intel Controller 
 
     Route::get('/threat_intels', 'ThreatIntelController@index');
+    Route::get('/all_threat_intels', 'ThreatIntelController@indexFull');
     Route::get('/threat_intels/{search}', 'ThreatIntelController@search');
     Route::get('/threat_intels/{start_date}&{end_date}', 'ThreatIntelController@filterDate');
     Route::get('threats_intel/sortLast5days', 'ThreatIntelController@sortLast5days');
