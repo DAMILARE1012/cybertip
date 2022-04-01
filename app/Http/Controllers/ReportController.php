@@ -35,6 +35,8 @@ class ReportController extends Controller
         return response()->json(['Reports' => $reports], 201);
     }
 
+    
+
     public function removeReport($id)
     {
         $report = Report::findOrFail($id);
@@ -50,5 +52,26 @@ class ReportController extends Controller
         } else {
             return response()->json(['Message' => 'Record not found!'], 404);
         }
+    }
+
+    public function edit($id)
+    {
+        $user = Report::findOrFail($id);
+        return response()->json($user, 200);
+    }
+
+    public function changeReportFrequency(Request $request, $user)
+    {
+        $user = Report::find($user);
+
+        $validate = $request->validate([
+
+            'frequency' => 'required',
+        ]);
+
+        $user->frequency = $request->frequency;
+
+        $user->save();
+        return response()->json(['User' => $user, 'message' => 'User account updated successfully...'], 200);
     }
 }

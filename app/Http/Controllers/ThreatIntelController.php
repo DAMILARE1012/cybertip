@@ -15,11 +15,7 @@ class ThreatIntelController extends Controller
         return response()->json($threat_intels, 200);
     }
 
-    public function indexFull()
-    {
-        $threat_intels = ThreatIntel::all();
-        return response()->json($threat_intels, 200);
-    }
+    
 
     public function search($name)
     {

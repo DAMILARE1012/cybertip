@@ -33,6 +33,12 @@ class BookmarkController extends Controller
         return response()->json(['Bookmarks' => $bookmarks], 201);
     }
 
+    public function indexFull()
+    {
+        $bookmarks = Bookmark::all();
+        return response()->json($bookmarks, 200);
+    }
+
     public function removeBookmark($id)
     {
         $bookmark = Bookmark::findOrFail($id);
