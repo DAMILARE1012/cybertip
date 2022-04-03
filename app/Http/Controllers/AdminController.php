@@ -102,6 +102,16 @@ class AdminController extends Controller
         $user->save();
         return response()->json(['User' => $user, 'message' => 'User Profile updated successfully...'], 200);
     }
+
+    public function onlineUsers(Request $request)
+    {
+        $users = User::select("*")
+                        ->whereNotNull('last_seen')
+                        ->orderBy('last_seen', 'DESC')
+                        ->paginate(10);
+          
+        return response()->json(['users' => $users],200);
+    }
 }
 
 

@@ -22,7 +22,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
+    Route::post('logout/{id}', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::get('me', 'AuthController@me');
 });
@@ -38,6 +38,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/threat_intels/{start_date}&{end_date}', 'ThreatIntelController@filterDate');
     Route::get('threats_intel/sortLast5days', 'ThreatIntelController@sortLast5days');
     Route::get('threats_intel/sortLast7days', 'ThreatIntelController@sortLast7days');
+    Route::get('/unique_source', 'ThreatIntelController@uniqueSource');
+    Route::get('/unique_geolocations', 'ThreatIntelController@uniquegeoLocation');
+    Route::get('/multi_search', 'ThreatIntelController@multiSearch');
+    
 
     // Admin Controller 
     Route::get('unapproved_users', 'AdminController@unapproved_users');
@@ -49,6 +53,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::delete('/users/{id}/remove_post', 'AdminController@decline');
     Route::get('/users', 'AdminController@usersList');
     Route::get('/users/approved', 'AdminController@approvedUsers');
+    // Route::get('/users/online', 'AdminController@onlineUsers');
 
     // Bookmark Controller 
     Route::post('/users/bookmark_record', 'BookmarkController@store');
@@ -65,4 +70,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users/reports', 'ReportController@index');
     Route::get('/reports/{search}', 'ReportController@search');
     Route::delete('/reports/{id}', 'ReportController@removeReport');
+    Route::put('/bookmark_records/{id}', 'ReportController@changeReportFrequency');
+
+
+    // Activity Record Controller
+    Route::get('/online_users', 'ActivityRecordController@onlineUsers');
+    Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
+
 });

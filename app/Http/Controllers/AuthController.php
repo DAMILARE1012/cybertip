@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivityRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -85,6 +86,11 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
+        $activityRecord = new ActivityRecord;
+        $activityRecord->user_id = $user->id;
+        $activityRecord->activity_status = 1;
+        $activityRecord->save();
+
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'User credentials not found!'], 400);
         }
@@ -110,9 +116,13 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
         $this->guard()->logout();
+        
+        $activityRecord = ActivityRecord::find($request->id);
+        $activityRecord->activity_status = 0;
+        $activityRecord->save();
 
         return response()->json(['message' => 'Successfully logged out']);
     }

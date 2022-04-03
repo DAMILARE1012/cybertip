@@ -41,7 +41,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phoneNumber', 'companyName', 'companyRole', 'companyWebsite', 'googleProfile', 'facebookProfile', 'image', 'role_id', 'admin_approval'
+        'name', 'email', 'password', 'phoneNumber', 'companyName', 'companyRole', 'companyWebsite', 'googleProfile', 'facebookProfile', 'image', 'role_id', 'admin_approval',
     ];
 
     /**
@@ -67,8 +67,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    
-    public function bookmarks(){
+
+    public function bookmarks()
+    {
         return $this->belongsTo(Bookmark::class);
+    }
+
+    public function activityRecords(){
+        return $this->belongsTo(ActivityRecord::class);
     }
 }
