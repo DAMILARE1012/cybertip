@@ -14,6 +14,6 @@ class ThreatIntelSeeder extends Seeder
     public function run(){
         
         ThreatIntel::factory()->count(5)->create();
-
+        
 	}
 }
