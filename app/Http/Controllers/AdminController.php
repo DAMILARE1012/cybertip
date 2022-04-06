@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Notifications\ApproveUserNotify;
 use App\Notifications\NewPostNotify;
+use App\Notifications\PasswordResetNotification;
 use Illuminate\Support\Facades\Notification;
 use App\User;
-
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\URL;
 
 class AdminController extends Controller
 {
@@ -31,15 +31,21 @@ class AdminController extends Controller
         return response()->json($users, 200);
     }
 
-    public function approve($id)
+    public function approve(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $user->update(['admin_approval' => 1]);
 
-        Notification ::route('mail' , $user->email) //Sending mail to subscriber
-        ->notify(new ApproveUserNotify($user)); //With new post
+        // Send Email notification to user immediately....
+        $url = URL::temporarySignedRoute(
+            'password_reset',
+            now()->addMinutes(300),
+            ['token' => $user->email]
+        );
+        
+        Notification::route('mail', $user->email)->notify(new PasswordResetNotification($url));
 
-        return response()->json(['message' => 'User successfully approved...']);
+        return response()->json(['message' => 'User successfully approved. User email notification sent...'], 200);
     }
 
     public function edit($id)

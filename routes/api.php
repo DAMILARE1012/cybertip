@@ -31,6 +31,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => 'auth:api'], function () {
 
+    // User Controller
+    Route::post('/users/invite', 'UsersController@process_invites')->name('process_invite');
+
+
+    // Route::POST('/registration', 'Auth\RegisterController@register')->name('accept');
+
     // Threat Intel Controller 
 
     Route::get('/threat_intels', 'ThreatIntelController@index');
@@ -41,7 +47,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/unique_source', 'ThreatIntelController@uniqueSource');
     Route::get('/unique_geolocations', 'ThreatIntelController@uniquegeoLocation');
     Route::get('/multi_search', 'ThreatIntelController@multiSearch');
-    
+
 
     // Admin Controller 
     Route::get('unapproved_users', 'AdminController@unapproved_users');
@@ -76,5 +82,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Activity Record Controller
     Route::get('/online_users', 'ActivityRecordController@onlineUsers');
     Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
-
 });
+
+// Users' Password Registration
+
+Route::get('/password_reset', 'UsersController@getresetPassword')->name('password_reset');
+Route::put('/password_reset', 'UsersController@resetPassword')->name('password_reset');
+
+
+Route::get('/registration/{token}', 'UsersController@registration_view')->name('registration');

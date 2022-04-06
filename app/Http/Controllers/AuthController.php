@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -47,7 +48,7 @@ class AuthController extends Controller
             'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
             // 'role_id' => 'required',
             'companyWebsite' => 'string|max:255|nullable',
-            'password' => 'required|string|min:6|confirmed',
+            // 'password' => 'required|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -57,11 +58,13 @@ class AuthController extends Controller
         if ($request->hasFile('image')) {
 
             $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt,PATHINFO_FILENAME);
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
-            $path = $request->file('image')->storeAs('public/news_images',$fileNameToStore);
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            $path = $request->file('image')->storeAs('public/news_images', $fileNameToStore);
         }
+
+        $usersPassword = "mypassword";
 
         $user = User::create([
             'name' => $request->get('name'),
@@ -71,13 +74,13 @@ class AuthController extends Controller
             'companyRole' => $request->get('companyRole'),
             'googleProfile' => $request->get('googleProfile'),
             'facebookProfile' => $request->get('facebookProfile'),
-            'image' => $request->file('image') ? $fileNameToStore:null,
-            'role_id'=> 3,
+            'image' => $request->file('image') ? $fileNameToStore : null,
+            'role_id' => 3,
             'companyWebsite' => $request->get('companyWebsite'),
-            'password' => Hash::make($request->get('password')),
+            'password' => Hash::make($usersPassword),
         ]);
 
-        return response()->json(['User' => $user, 'role_name' => 'User', 'token' => JWTAuth::fromUser($user),  'message' => 'Welcome new user, your account has been successfully created'], 201);
+        return response()->json(['User' => $user, 'role_name' => 'User', 'message' => 'Thank you for registering with us. Your account approval would be attended to shortly by the Administrator. Thanks'], 201);
     }
 
     public function login(Request $request)
@@ -119,7 +122,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $this->guard()->logout();
-        
+
         $activityRecord = ActivityRecord::find($request->id);
         $activityRecord->activity_status = 0;
         $activityRecord->save();

@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         
-        // $this->call(RolesTableSeeder::class);
-        // $this->call(UserTableSeeder::class);
-        factory('App\ThreatIntel', 20)->create();
+        $this->call(RolesTableSeeder::class);
+        $this->call(UserTableSeeder::class);
+        // factory('App\ThreatIntel', 20)->create();
         
     }
 }

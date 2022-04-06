@@ -25,8 +25,6 @@ class UserTableSeeder extends Seeder
             'admin_approval' => 1,
             'email_verified_at' => now(),
             'password' => bcrypt('verysafepassword'),
-
-
         ]);
     }
 }
