@@ -10,9 +10,10 @@ class Role extends Model
         'role_key','role_name',
     ];
 
-    const ADMIN = 1;
-    const MANAGER = 2;
-    const USER = 3;
+    const SUPER_ADMIN = 1;
+    const ADMIN = 2;
+    const ANALYST = 3;
+    const USER = 4;
 
     public function user(){
         return $this->belongsTo(User::class);

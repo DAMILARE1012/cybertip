@@ -21,7 +21,7 @@ class UserTableSeeder extends Seeder
             'companyWebsite' => 'www.cybertip.com',
             'googleProfile' => 'www.google.com/damilare',
             'facebookProfile' => 'www.facebook.com/damilare_emmanuel',
-            'role_id' => Role::where('role_name','Super Admin')->first()->id,
+            'role_id' => Role::where('role_name','Super_Admin')->first()->id,
             'admin_approval' => 1,
             'time_in' => now(),
             'time_out' => null,
