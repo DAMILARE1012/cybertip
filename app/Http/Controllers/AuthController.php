@@ -99,6 +99,10 @@ class AuthController extends Controller
         $activityRecord->activity_status = 1;
         $activityRecord->save();
 
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return 'Invalid login details';
+         }
+
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'User credentials not found!'], 400);
         }
