@@ -13,7 +13,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         \App\User::updateorCreate(['email' => 'admin@admin.com'],[
-            'name' => 'Admin',
+            'name' => 'Super Admin',
             'email' => 'admin@admin.com',
             'phoneNumber'=> '09030450989',
             'companyName' => 'CyberTip Nigeria Limited',
@@ -21,7 +21,7 @@ class UserTableSeeder extends Seeder
             'companyWebsite' => 'www.cybertip.com',
             'googleProfile' => 'www.google.com/damilare',
             'facebookProfile' => 'www.facebook.com/damilare_emmanuel',
-            'role_id' => Role::where('role_name','Admin')->first()->id,
+            'role_id' => Role::where('role_name','Super Admin')->first()->id,
             'admin_approval' => 1,
             'time_in' => now(),
             'time_out' => null,

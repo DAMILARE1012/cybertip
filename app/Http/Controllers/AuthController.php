@@ -76,7 +76,7 @@ class AuthController extends Controller
             'googleProfile' => $request->get('googleProfile'),
             'facebookProfile' => $request->get('facebookProfile'),
             'image' => $request->file('image') ? $fileNameToStore : null,
-            'role_id' => 3,
+            'role_id' => 4,
             'companyWebsite' => $request->get('companyWebsite'),
             'time_in' => Carbon::now()->toDateTimeString(),
             'time_out' => null,
