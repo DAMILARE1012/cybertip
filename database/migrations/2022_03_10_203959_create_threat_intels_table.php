@@ -19,7 +19,7 @@ class CreateThreatIntelsTable extends Migration
             $table->string('real_name');
             $table->string('post');
             $table->string('url');
-            $table->string('time');
+            $table->date('time');
             $table->string('geolocation');
             $table->string('source');
         });

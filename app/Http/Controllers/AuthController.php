@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -77,6 +78,8 @@ class AuthController extends Controller
             'image' => $request->file('image') ? $fileNameToStore : null,
             'role_id' => 3,
             'companyWebsite' => $request->get('companyWebsite'),
+            'time_in' => Carbon::now()->toDateTimeString(),
+            'time_out' => null,
             'password' => Hash::make($usersPassword),
         ]);
 
@@ -88,6 +91,8 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         $user = User::where('email', $request->email)->first();
+        $user->time_in = Carbon::now()->toDateTimeString();
+        $user->save();
 
         $activityRecord = new ActivityRecord;
         $activityRecord->user_id = $user->id;
@@ -119,9 +124,13 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request)
+    public function logout(Request $request, $id)
     {
         $this->guard()->logout();
+
+        $user = User::find($id);
+        $user->time_out = Carbon::now()->toDateTimeString();
+        $user->save();
 
         $activityRecord = ActivityRecord::find($request->id);
         $activityRecord->activity_status = 0;

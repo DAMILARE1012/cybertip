@@ -23,6 +23,8 @@ class UserTableSeeder extends Seeder
             'facebookProfile' => 'www.facebook.com/damilare_emmanuel',
             'role_id' => Role::where('role_name','Admin')->first()->id,
             'admin_approval' => 1,
+            'time_in' => now(),
+            'time_out' => null,
             'email_verified_at' => now(),
             'password' => bcrypt('verysafepassword'),
         ]);

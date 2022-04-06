@@ -42,11 +42,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/threat_intels', 'ThreatIntelController@index');
     Route::get('/threat_intels/{search}', 'ThreatIntelController@search');
     Route::get('/threat_intels/{start_date}&{end_date}', 'ThreatIntelController@filterDate');
-    Route::get('threats_intel/sortLast5days', 'ThreatIntelController@sortLast5days');
-    Route::get('threats_intel/sortLast7days', 'ThreatIntelController@sortLast7days');
+    Route::get('threats_intel/sort24hrs', 'ThreatIntelController@sort24hrs');
+    Route::get('threats_intel/sort7days', 'ThreatIntelController@sort7days');
+    Route::get('threats_intel/sortMonth', 'ThreatIntelController@sortMonth');
+    Route::get('threats_intel/anytime', 'ThreatIntelController@anytime');
     Route::get('/unique_source', 'ThreatIntelController@uniqueSource');
     Route::get('/unique_geolocations', 'ThreatIntelController@uniquegeoLocation');
     Route::get('/multi_search', 'ThreatIntelController@multiSearch');
+    // Route::get('threats_intel/multidate_sort', 'ThreatIntelController@multiDateSort');
 
 
     // Admin Controller 
@@ -80,8 +83,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
     // Activity Record Controller
-    Route::get('/online_users', 'ActivityRecordController@onlineUsers');
-    Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
+
 });
 
 // Users' Password Registration
@@ -91,3 +93,7 @@ Route::put('/password_reset', 'UsersController@resetPassword')->name('password_r
 
 
 Route::get('/registration/{token}', 'UsersController@registration_view')->name('registration');
+
+
+Route::get('/online_users', 'ActivityRecordController@onlineUsers');
+Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
