@@ -20,6 +20,7 @@ class RolesTableSeeder extends Seeder
 
         ];
         foreach ($roles as $key => $role) {
+            $key++;
             Role::updateorCreate(['role_name' => $role],
                 [
                     'role_id' => $key,

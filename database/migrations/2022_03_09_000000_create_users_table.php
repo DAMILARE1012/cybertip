@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('facebookProfile')->nullable();
             $table->string('image')->nullable();
 //            $table->foreignId('role_id')->default(3)->constrained();
-             $table->unsignedInteger('role_id')->default(3);
+             $table->unsignedInteger('role_id');
             $table->boolean('admin_approval')->default(0);
             $table->dateTime('timeIn')->default(date("Y-m-d H:i:s"))->nullable();
             $table->dateTime('timeOut')->default(date("Y-m-d H:i:s"))->nullable();
