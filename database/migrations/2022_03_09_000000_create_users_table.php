@@ -27,8 +27,8 @@ class CreateUsersTable extends Migration
 //            $table->foreignId('role_id')->default(3)->constrained();
              $table->unsignedInteger('role_id')->default(3);
             $table->boolean('admin_approval')->default(0);
-            $table->dateTime('time_in')->default(date("Y-m-d H:i:s"))->nullable();
-            $table->dateTime('time_out')->default(date("Y-m-d H:i:s"))->nullable();
+            $table->dateTime('timeIn')->default(date("Y-m-d H:i:s"))->nullable();
+            $table->dateTime('timeOut')->default(date("Y-m-d H:i:s"))->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

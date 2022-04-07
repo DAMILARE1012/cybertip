@@ -78,8 +78,8 @@ class AuthController extends Controller
             'image' => $request->file('image') ? $fileNameToStore : null,
             'role_id' => 3,
             'companyWebsite' => $request->get('companyWebsite'),
-            'time_in' => Carbon::now()->toDateTimeString(),
-            'time_out' => null,
+            'timeIn' => Carbon::now()->toDateTimeString(),
+            'timeOut' => null,
             'password' => Hash::make($usersPassword),
         ]);
 
@@ -91,7 +91,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         $user = User::where('email', $request->email)->first();
-        $user->time_in = Carbon::now()->toDateTimeString();
+        $user->timeIn = Carbon::now()->toDateTimeString();
         $user->save();
 
         $activityRecord = new ActivityRecord;
@@ -133,7 +133,7 @@ class AuthController extends Controller
         $this->guard()->logout();
 
         $user = User::find($id);
-        $user->time_out = Carbon::now()->toDateTimeString();
+        $user->timeOut = Carbon::now()->toDateTimeString();
         $user->save();
 
         $activityRecord = ActivityRecord::find($request->id);
