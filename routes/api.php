@@ -32,7 +32,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 Route::group(['middleware' => 'auth:api'], function () {
 
     // User Controller
-    Route::post('/users/invite', 'UsersController@process_invites')->name('process_invite');
+
 
 
     // Route::POST('/registration', 'Auth\RegisterController@register')->name('accept');
@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/threat_intels', 'ThreatIntelController@index');
     Route::get('/threat_intels/{search}', 'ThreatIntelController@search');
     Route::get('/threat_intels/{start_date}&{end_date}', 'ThreatIntelController@filterDate');
-    
+
     Route::get('threats_intel/sort24hrs', 'ThreatIntelController@sort24hrs');
     Route::get('threats_intel/sort7days', 'ThreatIntelController@sort7days');
     Route::get('threats_intel/sortMonth', 'ThreatIntelController@sortMonth');
@@ -88,13 +88,19 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 // Users' Password Registration
-
 Route::get('/password_reset', 'UsersController@getresetPassword')->name('password_reset');
 Route::put('/password_reset', 'UsersController@resetPassword')->name('password_reset');
 
+// Route::get('/registration/{token}', 'UsersController@registration_view')->name('registration');
 
-Route::get('/registration/{token}', 'UsersController@registration_view')->name('registration');
 
+// Route::get('/invitation_password_reset/{$token}', 'UsersController@getinvitationPwdReset')->name('invitation_password_reset');
+
+// User Controller
+Route::post('/users/invite', 'UsersController@process_invites')->name('process_invite');
+
+Route::get('/invitation_password_reset', 'UsersController@getinvitationPwdReset')->name('invitation_password_reset');
+Route::put('/users/invitation_set_password', 'UsersController@invitationSetPassword');
 
 Route::get('/online_users', 'ActivityRecordController@onlineUsers');
 Route::get('/offline_users', 'ActivityRecordController@offlineUsers');

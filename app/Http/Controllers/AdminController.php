@@ -63,7 +63,6 @@ class AdminController extends Controller
 
     public function update_role(Request $request, User $user)
     {
-
         $request->validate([
             'role_id' => 'required',
         ]);
