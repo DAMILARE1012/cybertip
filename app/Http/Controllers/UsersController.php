@@ -42,7 +42,7 @@ class UsersController extends Controller
             ['token' => $token]
         );
 
-        Notification::route('mail', $request->input('email'))->notify(new InviteNotification($url));
+        Notification::route('mail', $request->input('email'))->notify(new InviteNotification($url, $request->input('email')));
 
         return Response()->json(['message' => 'Invitation successfully sent'], 200);
     }
@@ -57,8 +57,8 @@ class UsersController extends Controller
 
     // Password reset for users.....
 
-    public function getresetPassword(){
-        return response()->json(['message' => 'Reset passsword page should be here... Kindly create three fields (email, password and password confirmation)'], 201);
+    public function getresetPassword(Request $request){
+        return response()->json(['User' => $request->input('email'), 'message' => 'Reset passsword page should be here... Kindly create three fields (email, password and password confirmation)'], 201);
     }
 
     public function resetPassword(Request $request)

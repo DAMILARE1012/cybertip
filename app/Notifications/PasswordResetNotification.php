@@ -11,14 +11,16 @@ class PasswordResetNotification extends Notification
 {
     use Queueable;
     protected $notification_url;
+    protected $user;
     /**
      * Create a new notification_url instance.
      *
      * @param $notification_url
      */
-    public function __construct($notification_url)
+    public function __construct($notification_url, $user)
     {
         $this->notification_url = $notification_url;
+        $this->user = $user;
     }
     /**
      * Get the notification_url's delivery channels.
@@ -39,8 +41,11 @@ class PasswordResetNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Greetings!')
-            ->line('This is to inform you that your account registration has been successfully approved by CyberPlural. :) ')
+            ->greeting("Greetings! {$this->user->name}")
+            ->line("This is to inform you that your account registration has been successfully approved by CyberPlural. :)")
+            ->line("Your registration details includes the following: ")
+            ->line("Email Address: {$this->user->email}")
+            ->line("Company Name: {$this->user->companyName}")
             ->line('Kindly perfect your profile creation using the link below')
             ->action('Set Password', $this->notification_url)
             ->line('We look forward to seeing you on the platform.')

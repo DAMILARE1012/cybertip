@@ -43,7 +43,7 @@ class AdminController extends Controller
             ['token' => $user->email]
         );
         
-        Notification::route('mail', $user->email)->notify(new PasswordResetNotification($url));
+        Notification::route('mail', $user->email)->notify(new PasswordResetNotification($url, $user));
 
         return response()->json(['message' => 'User successfully approved. User email notification sent...'], 200);
     }
