@@ -40,7 +40,7 @@ class InviteNotification extends Notification
     {
         return (new MailMessage)
             ->greeting('Greetings!')
-            ->line('This is to invite you to join cybertip intelligence platform. :) ')
+            ->line('This is to invite you to join cybertip intelligence platform. :) ' $user->email)
             ->line('Kindly click here to accept your membership invitation as a resourceful person')
             ->action('Register Here',$this->notification_url)
             ->line('We humbly look forward to you joining us.')
