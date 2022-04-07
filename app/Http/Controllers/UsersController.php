@@ -54,7 +54,8 @@ class UsersController extends Controller
                 'timeOut' => null,
                 'password' => Hash::make($usersPassword),
             ]);
-        }else{
+        }
+        if ($request->input('role_id') == 2) {
             $usersPassword = "mypassword";
             $user = User::create([
                 'name' => "",
