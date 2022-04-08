@@ -104,3 +104,8 @@ Route::put('/users/invitation_set_password', 'UsersController@invitationSetPassw
 
 Route::get('/online_users', 'ActivityRecordController@onlineUsers');
 Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
+
+
+// Digital Profile Controller
+Route::post('/digital_profile', 'ProfileController@store');
+Route::get('/digital_profile', 'ProfileController@index');
