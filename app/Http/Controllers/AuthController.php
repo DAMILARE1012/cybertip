@@ -76,14 +76,14 @@ class AuthController extends Controller
             'googleProfile' => $request->get('googleProfile'),
             'facebookProfile' => $request->get('facebookProfile'),
             'image' => $request->file('image') ? $fileNameToStore : null,
-            'role_id' => Role::where('role_name','User')->first()->role_id,
+            'role_id' => Role::where('role_name', 'User')->first()->role_id,
             'companyWebsite' => $request->get('companyWebsite'),
             'timeIn' => Carbon::now()->toDateTimeString(),
             'timeOut' => null,
             'password' => Hash::make($usersPassword),
         ]);
 
-        return response()->json(['User' => $user, 'role_name' => Role::where('role_name','User')->first()->role_name, 'message' => 'Thank you for registering with us. Your account approval would be attended to shortly by the Administrator. Thanks'], 201);
+        return response()->json(['User' => $user, 'role_name' => Role::where('role_name', 'User')->first()->role_name, 'message' => 'Thank you for registering with us. Your account approval would be attended to shortly by the Administrator. Thanks'], 201);
     }
 
     public function login(Request $request)
@@ -101,15 +101,18 @@ class AuthController extends Controller
 
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['message' => 'User credentials not found!'], 400);
-         }
+        }
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'User credentials not found!'], 400);
         }
         if ($user->admin_approval == 0 && $user->role_id == Role::USER) {
             return response()->json(['message' => 'Dear user, Kindly await the admin approval of your account registration'], 200);
+        }
+        if ($user->admin_approval == 1 && $user->role_id == Role::SUPER_ADMIN) {
+            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user, 'role_name' => $user->role->role_name,]);
         } else {
-            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user, 'role_name' => Role::where('role_name','User')->first()->role_name,]);
+            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'role_name' => Role::where('role_name', 'User')->first()->role_name]);
         }
     }
 
