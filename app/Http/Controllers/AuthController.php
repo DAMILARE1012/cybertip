@@ -109,7 +109,7 @@ class AuthController extends Controller
         if ($user->admin_approval == 0 && $user->role_id == Role::USER) {
             return response()->json(['message' => 'Dear user, Kindly await the admin approval of your account registration'], 200);
         } else {
-            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user->with('role')->pluck('role_id'),]);
+            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user->with('role')->pluck('role_name'), 'role_name' => $user->role->role_name,]);
         }
     }
 
