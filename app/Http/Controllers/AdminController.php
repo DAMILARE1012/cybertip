@@ -45,7 +45,7 @@ class AdminController extends Controller
         
         Notification::route('mail', $user->email)->notify(new PasswordResetNotification($url, $user));
 
-        return response()->json(['message' => 'User successfully approved. User email notification sent...'], 200);
+        return response()->json(['message' => 'User successfully approved. User email notification sent...'], 201);
     }
 
     public function decline($id)
@@ -72,7 +72,7 @@ class AdminController extends Controller
             $user->role_id = 2;
         }
         $user->save();
-        return response()->json(['message' => 'User role updated successfully...']);
+        return response()->json(['message' => 'User role updated successfully...'], 201);
     }
 
     public function updateProfile(Request $request, $user)
