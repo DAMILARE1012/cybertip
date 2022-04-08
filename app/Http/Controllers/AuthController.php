@@ -83,7 +83,7 @@ class AuthController extends Controller
             'password' => Hash::make($usersPassword),
         ]);
 
-        return response()->json(['User' => $user, 'role_name' => $user->role->role_name, 'message' => 'Thank you for registering with us. Your account approval would be attended to shortly by the Administrator. Thanks'], 201);
+        return response()->json(['User' => $user, 'role_name' => Role::where('role_name','User')->first()->role_name, 'message' => 'Thank you for registering with us. Your account approval would be attended to shortly by the Administrator. Thanks'], 201);
     }
 
     public function login(Request $request)
