@@ -18,7 +18,7 @@ class CreateProfilesTable extends Migration
             $table->string('companyName');
             $table->string('domain');
             $table->ipAddress('ipAddress');
-            $table->json('keywords');
+            $table->text('keywords');
             $table->timestamps();
         });
     }
