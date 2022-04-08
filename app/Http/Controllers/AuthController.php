@@ -112,7 +112,7 @@ class AuthController extends Controller
         if ($user->admin_approval == 1 && Role::where('role_name','User')->first()->role_name == "User") {
             return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user, 'role_name' => Role::where('role_name','User')->first()->role_name]);
         } else {
-            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user, 'role_name' => $user->role->role_name,]);
+            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user, 'role_name' => Role::where('role_name','Super_Admin')->first()->role_name]);
         }
     }
 
