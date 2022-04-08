@@ -105,12 +105,10 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'User credentials not found!'], 400);
-        }
-        if ($user->admin_approval == 0 && $user->role_id == Role::USER) {
+        }elseif ($user->admin_approval == 0 && $user->role_id == Role::USER) {
             return response()->json(['message' => 'Dear user, Kindly await the admin approval of your account registration'], 200);
-        }
-        if ($user->admin_approval == 1 && $user->role_id == Role::SUPER_ADMIN) {
-            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user, 'role_name' => $user->role->role_name,]);
+        }elseif ($user->admin_approval == 1 && $user->role_id == Role::SUPER_ADMIN) {
+            return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'User' => $user, 'role_name' => Role::where('role_name', 'Super_Admin')->first()->role_name,]);
         } else {
             return response()->json(['message' => ' login successful', 'token' => JWTAuth::fromUser($user), 'role_name' => Role::where('role_name', 'User')->first()->role_name]);
         }
