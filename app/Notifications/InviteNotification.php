@@ -43,7 +43,7 @@ class InviteNotification extends Notification
         return (new MailMessage)
             ->greeting("Greetings! {$this->user->email}")
             ->line('This is to invite you to join cybertip intelligence platform. :)')
-            ->line("An account has been created for you under ({$this->user->companyName}) with the role: {$this->user->role->role_name}")
+            ->line("An account has been created for you under ({$this->user->companyName}) with the role:")
             ->line('Kindly click here to accept your membership invitation as a resourceful person')
             ->action('Set Password',$this->notification_url)
             ->line('We humbly look forward to you joining us.')
