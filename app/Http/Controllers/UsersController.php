@@ -87,8 +87,8 @@ class UsersController extends Controller
 
     public function indexPermissionList()
     {
-        $result = User::where('role_id', 2)->orWhere('role_id', 3)->paginate(6);
-        return response()->json($result, 200);
+        $user = User::where('role_id', 2)->orWhere('role_id', 3)->paginate(6);
+        return response()->json(["User" => $user, 'role' => Role::where('role_id', $user->role_id)->first()->role_name], 200);
     }
 
     public function getinvitationPwdReset(Request $request)
