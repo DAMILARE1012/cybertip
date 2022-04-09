@@ -106,7 +106,7 @@ Route::get('/online_users', 'ActivityRecordController@onlineUsers');
 Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
 
 // Permission
-Route::get('/users/permission_list', 'UsersRecordController@indexPermissionList');
+Route::get('/users/permission_list', 'UsersController@indexPermissionList');
 
 
 
