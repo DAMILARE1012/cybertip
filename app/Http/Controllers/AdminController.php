@@ -42,7 +42,7 @@ class AdminController extends Controller
             now()->addMinutes(300),
             ['token' => $user->email]
         );
-        
+
         Notification::route('mail', $user->email)->notify(new PasswordResetNotification($url, $user));
 
         return response()->json(['message' => 'User successfully approved. User email notification sent...'], 201);
@@ -61,16 +61,15 @@ class AdminController extends Controller
         return response()->json($user, 200);
     }
 
-    public function update_role(Request $request, User $user)
+    public function update_role(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+
         $request->validate([
             'role_id' => 'required',
         ]);
 
         $user->role_id = $request->role_id;
-        if ($user->role_id == 3) {
-            $user->role_id = 2;
-        }
         $user->save();
         return response()->json(['message' => 'User role updated successfully...'], 201);
     }
@@ -80,7 +79,7 @@ class AdminController extends Controller
         $user = User::find($user);
 
         $validate = $request->validate([
-            
+
             'name' => 'required|string|max:255',
             'phoneNumber' => 'required|digits:11',
             'companyName' => 'required',
@@ -89,16 +88,16 @@ class AdminController extends Controller
             'facebookProfile' => 'nullable',
             'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
             'companyWebsite' => 'string|max:255|nullable',
-            
+
         ]);
 
         if ($request->hasFile('image')) {
 
             $filenameWithExt = $request->file('image')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt,PATHINFO_FILENAME);
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
-            $path = $request->file('image')->storeAs('public/news_images',$fileNameToStore);
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            $path = $request->file('image')->storeAs('public/news_images', $fileNameToStore);
         }
 
         $user->name = $request->name;
@@ -107,7 +106,7 @@ class AdminController extends Controller
         $user->companyRole = $request->companyRole;
         $user->googleProfile = $request->googleProfile;
         $user->facebookProfile = $request->facebookProfile;
-        $user->image = $request->file('image') ? $fileNameToStore:null;
+        $user->image = $request->file('image') ? $fileNameToStore : null;
         $user->companyWebsite = $request->companyWebsite;
         // dd($user);
 
@@ -118,12 +117,10 @@ class AdminController extends Controller
     public function onlineUsers(Request $request)
     {
         $users = User::select("*")
-                        ->whereNotNull('last_seen')
-                        ->orderBy('last_seen', 'DESC')
-                        ->paginate(10);
-          
-        return response()->json(['users' => $users],200);
+            ->whereNotNull('last_seen')
+            ->orderBy('last_seen', 'DESC')
+            ->paginate(10);
+
+        return response()->json(['users' => $users], 200);
     }
 }
-
-
