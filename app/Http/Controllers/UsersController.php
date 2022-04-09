@@ -91,7 +91,7 @@ class UsersController extends Controller
     }
 
     // I guess GetDemo Password Reset method...
-    
+
     public function invitationSetPassword(Request $request)
     {
         // Validate input
@@ -106,13 +106,6 @@ class UsersController extends Controller
         $user->update();
         return response()->json(['message' => 'Password registration successfully done...']);
     }
-
-    // public function registration_view($token)
-    // {
-    //     $invite = Invite::where('token', $token)->first();
-    //     return "Registration Form should be here";
-    //     // return Response()->json(['message' => 'Welcome User', 'invite' => $invite], 200);
-    // }
 
     // Password reset for users.....
 

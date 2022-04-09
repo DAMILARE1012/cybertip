@@ -109,3 +109,4 @@ Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
 // Digital Profile Controller
 Route::post('/digital_profile', 'ProfileController@store');
 Route::get('/digital_profile', 'ProfileController@index');
+Route::put('/digital_profile/{id}', 'ProfileController@updateProfile');

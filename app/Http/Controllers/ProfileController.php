@@ -45,23 +45,21 @@ class ProfileController extends Controller
     }
 
     // Update digital profile....
-    public function update(Request $request, $id)
+    public function updateProfile(Request $request, $id)
     {
         $profile = Profile::find($id);
 
         $validate = $request->validate([
-            'companyName' => 'required',
             'domain' => 'required',
             'ipAddress' => 'required',
             'keywords' => 'required',
         ]);
 
-        $profile->companyName = $request->companyName;
         $profile->domain = $request->domain;
         $profile->ipAddress = $request->ipAddress;
         $profile->keywords = $request->keywords;
 
         $profile->save();
-        return response()->json(['Profile' => $profile, 'message' => 'Profile updated successfully...'], 200);
+        return response()->json(['Profile' => $profile, 'message' => 'Digital profile updated successfully...'], 200);
     }
 }
