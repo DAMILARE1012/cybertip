@@ -57,29 +57,29 @@ class ThreatIntelController extends Controller
         return Response()->json($results, 200);
     }
 
-    public function sort24hrs()
+    public function sort24hrs($value)
     {
-        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays(1))->paginate(6);
+        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
         $records = $records->reverse();
         return Response()->json($records, 200);
     }
 
-    public function sort7days()
+    public function sort7days($value)
     {
-        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays(7))->paginate(6);
+        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
         $records = $records->reverse();
         return Response()->json($records, 200);
     }
 
-    public function sortMonth()
+    public function sortMonth($value)
     {
-        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays(30))->paginate(6);
+        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
         $records = $records->reverse();
         return Response()->json($records, 200);
     }
 
-    public function anytime(Request $request){
-        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($request->input('number')))->paginate(6);
+    public function anytime($value){
+        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
         $records = $records->reverse();
         return Response()->json($records, 200);   
     }
