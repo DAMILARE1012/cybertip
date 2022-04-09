@@ -105,6 +105,10 @@ Route::put('/users/invitation_set_password', 'UsersController@invitationSetPassw
 Route::get('/online_users', 'ActivityRecordController@onlineUsers');
 Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
 
+// Permission
+Route::get('/users/permission_list', 'ActivityRecordController@indexPermissionList');
+
+
 
 // Digital Profile Controller
 Route::post('/digital_profile', 'ProfileController@store');

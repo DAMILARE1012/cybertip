@@ -85,6 +85,12 @@ class UsersController extends Controller
         return Response()->json(['message' => 'Invitation successfully sent'], 200);
     }
 
+    public function indexPermissionList()
+    {
+        $result = User::whereIn('real_id', 2)->orWhereIn('role_id', 3)->paginate(6);
+        return response()->json($result, 200);
+    }
+
     public function getinvitationPwdReset(Request $request)
     {
         return response()->json(['message' => 'Reset passsword page should be here... Kindly create three fields (email, password and password confirmation)'], 201);
