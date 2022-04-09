@@ -40,7 +40,7 @@ class UsersController extends Controller
         if ($request->input('role_id') == 3) {
             $usersPassword = "mypassword";
             $user = User::create([
-                'name' => "",
+                'name' => $request->get('name'),
                 'email' => $request->get('email'),
                 'phoneNumber' => "",
                 'companyName' => $request->get('companyName'),
@@ -58,7 +58,7 @@ class UsersController extends Controller
         if ($request->input('role_id') == 2) {
             $usersPassword = "mypassword";
             $user = User::create([
-                'name' => "",
+                'name' => $request->get('name'),
                 'email' => $request->get('email'),
                 'phoneNumber' => "",
                 'companyName' => $request->get('companyName'),
