@@ -87,7 +87,7 @@ class UsersController extends Controller
 
     public function indexPermissionList()
     {
-        $result = User::whereIn('real_id', 2)->orWhereIn('role_id', 3)->paginate(6);
+        $result = User::where('real_id', 2)->orWhere('role_id', 3)->paginate(6);
         return response()->json($result, 200);
     }
 
