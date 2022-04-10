@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Report Controller
     Route::post('/users/report_list', 'ReportController@store');
-    Route::get('/users/reports', 'ReportController@index');
+    Route::get('/reports', 'ReportController@index');
     Route::get('/reports/{search}', 'ReportController@search');
     Route::delete('/reports/{id}', 'ReportController@removeReport');
     Route::put('/bookmark_records/{id}', 'ReportController@changeReportFrequency');
