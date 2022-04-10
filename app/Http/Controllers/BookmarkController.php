@@ -30,7 +30,7 @@ class BookmarkController extends Controller
     public function index()
     {
         $bookmarks = Bookmark::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(6);
-        return response()->json(['Bookmarks' => $bookmarks], 201);
+        return response()->json(['Bookmarks' => $bookmarks], 200);
     }
 
     public function indexFull()
