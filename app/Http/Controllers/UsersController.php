@@ -99,7 +99,7 @@ class UsersController extends Controller
     {
         $result = User::where('role_id', 2)->orWhere('role_id', 3)->get();
         $result = $result->where('name', 'LIKE', '%' . $value . '%')->first();
-        if (count($result)) {
+        if ($result) {
             return Response()->json($result);
         } else {
             return response()->json(['Message' => 'Record not found!'], 404);
