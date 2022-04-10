@@ -99,7 +99,7 @@ class UsersController extends Controller
     {
         $result = User::where('role_id', 2 || 3)->where('name', $value)->first();
         if ($result) {
-            return Response()->json($result);
+            return response()->json($result);
         } else {
             return response()->json(['Message' => 'Record not found!'], 404);
         }
