@@ -68,7 +68,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Bookmark Controller 
     Route::post('/users/bookmark_record', 'BookmarkController@store');
-    Route::get('/users/bookmark_records', 'BookmarkController@index');
+    Route::get('/bookmark_records', 'BookmarkController@index');
     Route::get('/all_bookmark_records', 'BookmarkController@indexFull');
     Route::get('/bookmark_posts/{search}', 'BookmarkController@search');
     Route::get('/bookmarks/{start_date}&{end_date}', 'BookmarkController@filterDate');
