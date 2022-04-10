@@ -57,17 +57,31 @@ class BookmarkController extends Controller
         }
     }
 
-    public function sortLast5days()
+    public function sort24hrs($value)
     {
-        $last_5_days = Bookmark::where('created_at', '>=', Carbon::now()->subdays(5))->paginate(6);
-        $last_5_days = $last_5_days->reverse();
-        return Response()->json($last_5_days, 200);
+        $records = Bookmark::where('user_id', auth()->user()->id)->where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
+        $records = $records->reverse();
+        return Response()->json($records, 200);
     }
 
-    public function sortlast7days()
+    public function sort7days($value)
     {
-        $last_7_days = Bookmark::where('created_at', '>=', Carbon::now()->subdays(7))->paginate(6);
-        $last_7_days = $last_7_days->reverse();
-        return Response()->json($last_7_days, 200);
+        $records = Bookmark::where('user_id', auth()->user()->id)->where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
+        $records = $records->reverse();
+        return Response()->json($records, 200);
+    }
+
+    public function sortMonth($value)
+    {
+        $records = Bookmark::where('user_id', auth()->user()->id)->where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
+        $records = $records->reverse();
+        return Response()->json($records, 200);
+    }
+
+    public function anytime($value)
+    {
+        $records = Bookmark::where('user_id', auth()->user()->id)->where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
+        $records = $records->reverse();
+        return Response()->json($records, 200);
     }
 }

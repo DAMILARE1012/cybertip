@@ -73,8 +73,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/bookmark_posts/{search}', 'BookmarkController@search');
     Route::get('/bookmarks/{start_date}&{end_date}', 'BookmarkController@filterDate');
     Route::delete('/bookmarks/{id}', 'BookmarkController@removeBookmark');
-    Route::get('bookmarks/sortLast5days', 'BookmarkController@sortLast5days');
-    Route::get('bookmarks/sortLast7days', 'BookmarkController@sortLast7days');
+    Route::get('/bookmarks/sort24hrs/{value}', 'BookmarkController@sort24hrs');
+    Route::get('/bookmarks/sort7days/{value}', 'BookmarkController@sort7days');
+    Route::get('/bookmarks/sortMonth/{value}', 'BookmarkController@sortMonth');
+    Route::get('/bookmarks/anytime/{value}', 'BookmarkController@anytime');
+    // Route::get('bookmarks/sortLast5days', 'BookmarkController@sortLast5days');
+    // Route::get('bookmarks/sortLast7days', 'BookmarkController@sortLast7days');
 
     // Report Controller
     Route::post('/users/report_list', 'ReportController@store');
