@@ -97,11 +97,11 @@ class UsersController extends Controller
 
     public function searchList($value)
     {
-        $result = User::where('role_id', 2 || 3)->orWhere('name', $value)->first();
+        $result = User::where('role_id', 2 || 3)->orWhere('name', $value)->get();
         if ($result) {
             return response()->json($result);
         } else {
-            return response()->json(['Message' => 'Record not found!'], 404);
+            return response()->json(['Message' => 'Record not found!'], 400);
         }
     }
 
