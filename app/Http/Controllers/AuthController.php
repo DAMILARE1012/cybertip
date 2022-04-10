@@ -83,6 +83,11 @@ class AuthController extends Controller
             'password' => Hash::make($usersPassword),
         ]);
 
+        ActivityRecord::firstOrCreate(
+            ['user_id' =>  $user->id],
+            ['activity_status' => 1]
+        );
+
         return response()->json(['User' => $user, 'role_name' => Role::where('role_name','User')->first()->role_name, 'message' => 'Thank you for registering with us. Your account approval would be attended to shortly by the Administrator. Thanks'], 201);
     }
 
@@ -94,10 +99,14 @@ class AuthController extends Controller
         $user->timeIn = Carbon::now()->toDateTimeString();
         $user->save();
 
-        $activityRecord = new ActivityRecord;
-        $activityRecord->user_id = $user->id;
-        $activityRecord->activity_status = 1;
-        $activityRecord->save();
+        ActivityRecord::firstOrCreate(
+            ['user_id' =>  $user->id],
+            ['activity_status' => 1]
+        );
+        // $activityRecord = new ActivityRecord;
+        // $activityRecord->user_id = $user->id;
+        // $activityRecord->activity_status = 1;
+        // $activityRecord->save();
 
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['message' => 'User credentials not found!'], 400);
