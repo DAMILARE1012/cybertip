@@ -85,10 +85,21 @@ class UsersController extends Controller
         return Response()->json(['message' => 'Invitation successfully sent'], 200);
     }
 
+
+    // Invitated users by permission
     public function indexPermissionList()
     {
         $user = User::where('role_id', 2)->orWhere('role_id', 3)->paginate(6);
         return response()->json(["User" => $user], 200);
+    }
+
+    // Search for Permission List 
+
+    public function searchList($value)
+    {
+        $result = User::where('role_id', 2)->orWhere('role_id', 3)->get();
+        $result = $result->where('name', 'LIKE', '%' . $value . '%')->first();
+        return Response()->json($result);
     }
 
     public function getinvitationPwdReset(Request $request)

@@ -127,24 +127,4 @@ class ThreatIntelController extends Controller
         return Response()->json(['Threat Intels' => $threat_intels->get()], 200);
     }
 
-    // public function multiDateSort(Request $request)
-    // {
-    //     if ($request->filled('last24hrs')) {
-    //         $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($request->input('last24hrs')))->paginate(6);
-    //         $records = $records->reverse();
-    //         return Response()->json($records, 200);
-    //     }
-
-    //     if ($request->filled('last7days')) {
-    //         $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($request->input('last7days')))->paginate(6);
-    //         $records = $records->reverse();
-    //         return Response()->json($records, 200);
-    //     }
-
-    //     if ($request->filled('userdefined')) {
-    //         $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($request->input('userdefined')))->paginate(6);
-    //         $records = $records->reverse();
-    //         return Response()->json($records, 200);
-    //     }
-    // }
 }
