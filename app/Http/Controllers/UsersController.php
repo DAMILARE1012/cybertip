@@ -103,6 +103,7 @@ class UsersController extends Controller
             return Response()->json($result);
         } else {
             return response()->json(['Message' => 'Record not found!'], 404);
+        }
     }
 
     public function getinvitationPwdReset(Request $request)
