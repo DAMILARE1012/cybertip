@@ -98,7 +98,7 @@ class UsersController extends Controller
     public function searchList($value)
     {
         $result = User::where('role_id', 2)->orWhere('role_id', 3)->get();
-        $result = $result->value($value);
+        $result = $result->where('name', 'LIKE', '%' . $value . '%')->get();
         return Response()->json($result);
     }
 
