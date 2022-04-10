@@ -19,6 +19,16 @@ class AdminController extends Controller
         return response()->json($users, 200);
     }
 
+    public function userSearch($name)
+    {
+        $result = User::where('name', 'LIKE', '%' . $name . '%')->orWhere('email', 'like', '%' . $name . '%')->get();
+        if (count($result)) {
+            return Response()->json($result);
+        } else {
+            return response()->json(['Message' => 'Record not found!'], 404);
+        }
+    }
+
     public function approvedUsers()
     {
         $users = User::where('admin_approval', 1)->paginate(6);

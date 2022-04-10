@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/users/{user}/updateprofile', 'AdminController@updateProfile');
     Route::delete('/users/{id}/remove_post', 'AdminController@decline');
     Route::get('/users', 'AdminController@usersList');
+    Route::get('/users/{search}', 'AdminController@userSearch');
     Route::get('/users/approved', 'AdminController@approvedUsers');
     // Route::get('/users/online', 'AdminController@onlineUsers');
 
