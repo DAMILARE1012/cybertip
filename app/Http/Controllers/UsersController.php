@@ -106,6 +106,14 @@ class UsersController extends Controller
         }
     }
 
+    // Delete permitted user...
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return response()->json(['message' => 'User successfully removed.....']);
+    }
+
     public function getinvitationPwdReset(Request $request)
     {
         return response()->json(['message' => 'Reset passsword page should be here... Kindly create three fields (email, password and password confirmation)'], 201);
