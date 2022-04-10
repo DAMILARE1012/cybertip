@@ -99,7 +99,10 @@ class UsersController extends Controller
     {
         $result = User::where('role_id', 2)->orWhere('role_id', 3)->get();
         $result = $result->where('name', 'LIKE', '%' . $value . '%')->first();
-        return Response()->json($result);
+        if (count($result)) {
+            return Response()->json($result);
+        } else {
+            return response()->json(['Message' => 'Record not found!'], 404);
     }
 
     public function getinvitationPwdReset(Request $request)
