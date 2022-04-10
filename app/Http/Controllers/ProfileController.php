@@ -62,4 +62,15 @@ class ProfileController extends Controller
         $profile->save();
         return response()->json(['Profile' => $profile, 'message' => 'Digital profile updated successfully...'], 200);
     }
+
+    // Search digital profile by domain.....
+    public function searchProfile($value)
+    {
+        $result = Profile::where('domain', 'LIKE', '%' . $value . '%')->get();
+        if (count($result)) {
+            return Response()->json($result);
+        } else {
+            return response()->json(['Message' => 'Record not found!'], 404);
+        }
+    }
 }

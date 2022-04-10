@@ -114,4 +114,5 @@ Route::get('/users/permission_list/{value}', 'UsersController@searchList');
 // Digital Profile Controller
 Route::post('/digital_profile', 'ProfileController@store');
 Route::get('/digital_profile', 'ProfileController@index');
+Route::get('/digital_profile/{search}', 'ProfileController@searchProfile');
 Route::put('/digital_profile/{id}', 'ProfileController@updateProfile');
