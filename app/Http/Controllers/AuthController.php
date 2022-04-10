@@ -83,7 +83,7 @@ class AuthController extends Controller
             'password' => Hash::make($usersPassword),
         ]);
 
-        ActivityRecord::firstOrCreate(
+        ActivityRecord::updateOrCreate(
             ['user_id' =>  $user->id],
             ['activity_status' => 1]
         );
@@ -99,7 +99,7 @@ class AuthController extends Controller
         $user->timeIn = Carbon::now()->toDateTimeString();
         $user->save();
 
-        ActivityRecord::firstOrCreate(
+        ActivityRecord::updateOrCreate(
             ['user_id' =>  $user->id],
             ['activity_status' => 1]
         );
