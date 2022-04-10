@@ -108,6 +108,8 @@ Route::get('/offline_users', 'ActivityRecordController@offlineUsers');
 // Permission
 Route::get('/users/permission_list', 'UsersController@indexPermissionList');
 Route::get('/users/permission_list/{value}', 'UsersController@searchList');
+Route::delete('/users/permission_list/{id}', 'UsersController@deleteUser');
+
 
 
 
