@@ -31,7 +31,7 @@ class ReportController extends Controller
 
     public function index()
     {
-        $reports = Report::paginate(6);
+        $reports = Report::where('user_id', auth()->user()->id)->paginate(6);
         return response()->json(['Reports' => $reports], 201);
     }
 
@@ -39,7 +39,7 @@ class ReportController extends Controller
 
     public function removeReport($id)
     {
-        $report = Report::findOrFail($id);
+        $report = Report::where('user_id', auth()->user()->id)->findOrFail($id);
         $report->delete();
         return response()->json(['message' => 'Post successfully removed.....']);
     }

@@ -118,7 +118,7 @@ class UsersController extends Controller
         return response()->json(['message' => 'Reset passsword page should be here... Kindly create three fields (email, password and password confirmation)'], 201);
     }
 
-    // I guess GetDemo Password Reset method...
+    // Invited Members with role - Admin or Analyst Password Reset 
 
     public function invitationSetPassword(Request $request)
     {
@@ -144,20 +144,18 @@ class UsersController extends Controller
         return response()->json(['message' => 'Reset passsword page should be here... Kindly create three fields (email, password and password confirmation)'], 201);
     }
 
-    // Invited members password reset method...
+    // Get Demo Password (without name)
 
     public function resetPassword(Request $request)
     {
         // Validate input
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
-            'name' => 'required',
             'password' => 'required|string|min:6|confirmed',
         ]);
         // Confirm email in the database....
         $user = DB::table('users')->where('email', '=', $request->email)->first();
         $user = User::find($user->id);
-        $user->name = $request->name;
         $user->password = Hash::make($request->password);
         $user->update();
         return response()->json(['message' => 'Password registration successfully done...']);
