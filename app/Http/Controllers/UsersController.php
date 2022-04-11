@@ -130,6 +130,7 @@ class UsersController extends Controller
         // Confirm email in the database....
         $user = DB::table('users')->where('email', '=', $request->email)->first();
         $user = User::find($user->id);
+        $user->name = $request->name;
         $user->password = Hash::make($request->password);
         $user->update();
         return response()->json(['message' => 'Password registration successfully done...']);
