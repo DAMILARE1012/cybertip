@@ -125,6 +125,7 @@ class UsersController extends Controller
         // Validate input
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
+            'name' => 'required',
             'password' => 'required|string|min:6|confirmed',
         ]);
         // Confirm email in the database....
