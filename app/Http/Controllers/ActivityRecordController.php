@@ -10,14 +10,14 @@ class ActivityRecordController extends Controller
     public function onlineUsers()
     {
 
-        $activeUsers = ActivityRecord::where('activity_status', 1)->with('user')->paginate(6)->pluck('user');
+        $activeUsers = ActivityRecord::where('activity_status', 1)->with('user')->pluck('user')->paginate(6);
         // $activeUsers = $activeUsers->reverse();
         return Response()->json(['User_Records' => $activeUsers], 200);
     }
 
     public function offlineUsers()
     {
-        $inactiveUsers = ActivityRecord::where('activity_status', 0)->with('user')->paginate(6)->pluck('user');
+        $inactiveUsers = ActivityRecord::where('activity_status', 0)->with('user')->pluck('user')->paginate(6);
         // $inactiveUsers = $inactiveUsers->reverse();
         return Response()->json(['User_Records' => $inactiveUsers], 200);
     }
