@@ -74,14 +74,12 @@ class BookmarkController extends Controller
     public function sortMonth($value)
     {
         $records = Bookmark::where('user_id', auth()->user()->id)->where('time', '>=', Carbon::now()->subMonths($value))->paginate(6);
-        $records = $records->reverse();
-        return Response()->json([$records], 200);
+        return Response()->json($records, 200);
     }
 
     public function anytime($value)
     {
         $records = Bookmark::where('user_id', auth()->user()->id)->where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
-        $records = $records->reverse();
         return Response()->json($records, 200);
     }
 }
