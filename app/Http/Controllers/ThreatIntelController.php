@@ -73,14 +73,12 @@ class ThreatIntelController extends Controller
 
     public function sortMonth($value)
     {
-        $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
-        $records = $records->reverse();
+        $records = ThreatIntel::where('time', '>=', Carbon::now()->subMonths($value))->paginate(6);
         return Response()->json($records, 200);
     }
 
     public function anytime($value){
         $records = ThreatIntel::where('time', '>=', Carbon::now()->subDays($value))->paginate(6);
-        $records = $records->reverse();
         return Response()->json($records, 200);   
     }
 
