@@ -118,7 +118,7 @@ class UsersController extends Controller
         return response()->json(['message' => 'Reset passsword page should be here... Kindly create three fields (email, password and password confirmation)'], 201);
     }
 
-    // Get demo password....
+    // Get demo password reset..... This is for users that create account and wait for account confirmation from Admin
 
     public function invitationSetPassword(Request $request)
     {
