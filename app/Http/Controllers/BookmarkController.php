@@ -75,7 +75,7 @@ class BookmarkController extends Controller
     {
         $records = Bookmark::where('user_id', auth()->user()->id)->where('time', '>=', Carbon::now()->subMonths($value))->paginate(6);
         $records = $records->reverse();
-        return Response()->json($records, 200);
+        return Response()->json([$records], 200);
     }
 
     public function anytime($value)
